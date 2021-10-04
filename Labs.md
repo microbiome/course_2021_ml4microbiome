@@ -64,7 +64,8 @@ Feature selection will determine which aspects of the data we will focus on.
 
 2.  **Subset** the data at your desired taxonomic level with only
     taking taxonomic groups that are greater than 10% of prevalence in
-    the total sample.
+    the total sample. ([mia::subsetByPrevalentTaxa](https://microbiome.github.io/mia/)
+    
 
 3.  **Subset** the data to selected two phyla, for instance:
     "Actinobacteria“ and ”Cyanobacteria"
