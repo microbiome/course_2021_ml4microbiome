@@ -21,10 +21,28 @@ Lab 1: feature selection & dimension reduction
 
 ## Preparation
 
-**Load data**. You can load the data in R with `tse <-
-readRDS("tse.rds")`. If you like to explore in more detail how we
-construct the data, you can have a look at the data preparation
-script.
+**Load data**.
+
+You can download the R data file tse.Rds from
+[here](https://github.com/microbiome/course_2021_ml4microbiome/blob/master/tse.Rds). The
+read it to R with:
+
+```{r}
+tse <- readRDS("tse.Rds")
+```
+
+If you like to see how the data was created, you can download the
+[zip](data_zipfile.zip) and run the data preparation
+[script](tse_script.R).
+
+
+## Load necessary packages in R
+
+```{r}
+library(mia)
+library(miaViz)
+```
+
 
 **Familiarize** with this R data format based on examples in [online
 tutorial](https://microbiome.github.io/course_2021_miaverse/microbiome-data-exploration.html). We

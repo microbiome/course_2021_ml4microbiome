@@ -26,6 +26,8 @@ In this tutorial we use data from [The Human Gut Microbiome Atlas (HGMA)](https:
 
 Let us load the readily processed data (TreeSummarizedExperiment object).
 
+You can download the R data file tse.Rds from [here](https://github.com/microbiome/course_2021_ml4microbiome/blob/master/tse.Rds).
+
 ```{r}
 tse <- readRDS("tse.Rds")
 ```
@@ -35,13 +37,20 @@ If you like to see how the data was created, you can download the
 [script](tse_script.R).
 
 
+## Load packages in R
+
+```{r}
+library(mia)
+library(miaViz)
+```
+
 ## Tasks
 
 
 1. Aggregate the data to Phylum level 
 
 ```{r}
-tse_phylum <- agglomerateByRank(tse, rank = "Phylum")
+tse_phylum <- agglomerateByRank(tse, rank = "phylum")
 ```
 
 
@@ -50,19 +59,19 @@ tse_phylum <- agglomerateByRank(tse, rank = "Phylum")
 
 
 ```{r}
-altExp(tse,"species") <- agglomerateByRank(se, "species")
+altExp(tse,"species") <- agglomerateByRank(tse, "species")
 getPrevalentTaxa(tse, detection = 0, prevalence = 10/100)
 prev <- getPrevalentTaxa(tse, detection = 0, prevalence = 10/100)
                          
 ```
 
 
-3. Subset a tse object which consist only two phyla i.e Actinobacteria", "Cyanobacteria
+3. Subset a tse object which consist only two phyla i.e "Actinobacteria", "Cyanobacteria"
 
 
 ```{r}
-se_subset_by_feature <- se[rowData(tse)$phylum %in% c("Actinobacteria", "Cyanobacteria")]
-se_subset_by_feature
+tse_subset_by_feature <- tse[rowData(tse)$phylum %in% c("Actinobacteria", "Cyanobacteria")]
+tse_subset_by_feature
 ```
 
  
@@ -93,10 +102,10 @@ tse <- transformSamples(x = tse, abund_values = "counts", method = "clr",
 ```{r}
 1.#PCoA for ASV-level data with Bray-Curtis
 
-se <- relAbundanceCounts(se)
+tse <- relAbundanceCounts(tse)
 
 # Pick the relative abundance table
-rel_abund_assay <- assays(se)$relabundance
+rel_abund_assay <- assays(tse)$relabundance
 
 # Calculates Bray-Curtis distances between samples. Because taxa is in
 # columns, it is used to compare different samples. We transpose the
