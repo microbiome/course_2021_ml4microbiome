@@ -1,0 +1,122 @@
+---
+title: "Solutions for Lab 2: clustering"
+author: "Leo lahti & Rajesh Shigdel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+### 3. Cluster the samples using Dirichlet-multinomial mixture model 
+
+
+
+```{r}
+tse <- agglomerateByRank(tse, rank = "phylum")
+tse_dmn <- runDMN(tse, name = "DMN", k = 1:4)
+tse_dmn
+
+
+#Return information on metadata that the object contains.
+names(metadata(tse_dmn))
+#This returns a list of DMN objects for a closer investigation.
+getDMN(tse_dmn)
+
+```
+
+```{r}
+
+library(miaViz)
+plotDMNFit(tse_dmn, type = "laplace")
+
+```
+
+```{r}
+#Return the model that has the best fit.
+getBestDMNFit(tse_dmn, type = "laplace")
+```
+
+```{r}
+dmn_group <- calculateDMNgroup(tse_dmn, variable = "Geography",  exprs_values = "counts",
+                               k = 2, seed=.Machine$integer.max)
+
+dmn_group
+```
+
+
+
+```{r}
+#Mixture weights (rough measure of the cluster size).
+DirichletMultinomial::mixturewt(getBestDMNFit(tse_dmn))
+```
+
+```{r}
+#Samples-cluster assignment probabilities / how probable it is that sample belongs to each cluster
+
+head(DirichletMultinomial::mixture(getBestDMNFit(tse_dmn)))
+```
+
+
+```{r}
+#Contribution of each taxa to each component
+head(DirichletMultinomial::fitted(getBestDMNFit(tse_dmn)))
+```
+
+```{r}
+#Get the assignment probabilities
+prob <- DirichletMultinomial::mixture(getBestDMNFit(tse_dmn))
+# Add column names
+colnames(prob) <- c("comp1", "comp2")
+
+# For each row, finds column that has the highest value. Then extract the column 
+# names of highest values.
+vec <- colnames(prob)[max.col(prob,ties.method = "first")]
+
+```
+
+```{r}
+# Does clr transformation. Pseudocount is added, because data contains zeros.
+tse <- transformCounts(tse, method = "clr", pseudocount = 1)
+
+# Gets clr table
+clr_assay <- assays(tse)$clr
+
+# Transposes it to get taxa to columns
+clr_assay <- t(clr_assay)
+
+# Calculates Euclidean distances between samples. Because taxa is in columns,
+# it is used to compare different samples.
+euclidean_dist <- vegan::vegdist(clr_assay, method = "euclidean")
+
+# Does principal coordinate analysis
+euclidean_pcoa <- ecodist::pco(euclidean_dist)
+
+# Creates a data frame from principal coordinates
+euclidean_pcoa_df <- data.frame(pcoa1 = euclidean_pcoa$vectors[,1], 
+                                pcoa2 = euclidean_pcoa$vectors[,2])
+```
+
+
+
+### 4. Visualize the clusters in the PCoA plot
+
+```{r}
+# Creates a data frame that contains principal coordinates and DMM information
+euclidean_dmm_pcoa_df <- cbind(euclidean_pcoa_df,
+                               dmm_component = vec)
+# Creates a plot
+euclidean_dmm_plot <- ggplot(data = euclidean_dmm_pcoa_df, 
+                             aes(x=pcoa1, y=pcoa2,
+                                 color = dmm_component)) +
+  geom_point() +
+  labs(x = "Coordinate 1",
+       y = "Coordinate 2",
+       title = "PCoA with Aitchison distances") +  
+  theme(title = element_text(size = 12)) # makes titles smaller
+
+euclidean_dmm_plot
+```
+
+
+
+
+

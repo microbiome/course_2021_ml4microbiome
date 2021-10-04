@@ -1,0 +1,92 @@
+---
+title: "Solutions for Lab 1"
+author: "Leo lahti & Rajesh Shigdel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+
+#command to load that Rds file (  )
+
+# Tutorial Aims 
+In this tutorial we will learn feature selection, dimension reduction, clustering, visualization, analysis and interpretation  using  
+ miaverse (mia = MIcrobiome Analysis) and miaViz - (Microbiome Analysis Plotting and Visualization) to explore patterns in human gut microbiome datasets. 
+
+The example in this tutorial are mainly based on this online book        
+[Orchestrating Microbiome Analysis](https://microbiome.github.io/OMA/)
+
+In this tutorial we use data from [The Human Gut Microbiome Atlas (HGMA)](https://www.microbiomeatlas.org/)
+
+
+
+# Lab 1: feature selection & dimension reduction
+
+## Load the data 
+
+Let us load the readily processed data (TreeSummarizedExperiment object).
+
+You can download the R data file tse.Rds from [here](https://github.com/microbiome/course_2021_ml4microbiome/blob/master/tse.Rds).
+
+```{r}
+tse <- readRDS("tse.Rds")
+```
+
+If you like to see how the data was created, you can download the
+[zip](data_zipfile.zip) and run the data preparation
+[script](tse_script.R).
+
+
+## Load packages in R
+
+```{r}
+library(mia)
+library(miaViz)
+```
+
+## Tasks
+
+
+1. Aggregate the data to Phylum level 
+
+```{r}
+tse_phylum <- agglomerateByRank(tse, rank = "phylum")
+```
+
+
+
+2. Subset the data at the Species level with only taking bacterial Species that are greater than 10% of prevalence in the total sample
+
+
+```{r}
+altExp(tse,"species") <- agglomerateByRank(tse, "species")
+getPrevalentTaxa(tse, detection = 0, prevalence = 10/100)
+prev <- getPrevalentTaxa(tse, detection = 0, prevalence = 10/100)
+                         
+```
+
+
+3. Subset a tse object which consist only two phyla i.e "Actinobacteria", "Cyanobacteria"
+
+
+```{r}
+tse_subset_by_feature <- tse[rowData(tse)$phylum %in% c("Actinobacteria", "Cyanobacteria")]
+tse_subset_by_feature
+```
+
+ 
+4. Calculate relative abundances, and store the table to assays
+
+
+```{r}
+tse <- relAbundanceCounts(tse)
+
+```
+
+
+5.Perform a centered log-ratio transformation (clr) (i.e. mia::transformSamples)
+
+```{r}
+tse <- transformSamples(x = tse, abund_values = "counts", method = "clr", 
+                        pseudocount = 1, name = "CLR")
+```

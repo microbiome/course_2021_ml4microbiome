@@ -1,0 +1,24 @@
+---
+title: "Solutions for Lab 3"
+author: "Leo lahti & Rajesh Shigdel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+
+# Lab 3 
+         
+                
+## unsupervised learning:Analysis and interpretation 
+
+ 1. What taxa are driving the axis? Calculate the spearman correlation between PC1 and the relative abundance of the bacteria and visualize the results in a     bar plot.
+
+
+ 2. Visualize the dominant taxonomic group of each sample by colour on PCoA plot 
+
+ 3. Visualize gender by colour on PCoA plot 
+
+
+
+

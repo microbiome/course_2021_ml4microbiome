@@ -1,0 +1,63 @@
+# Pick the relative abundance table
+rel_abund_assay <- assay(tse, "relabundance")
+
+# Calculate Bray-Curtis distances between samples.
+# Transpose the assay to get taxa to columns
+bray_curtis_dist <- vegan::vegdist(t(rel_abund_assay), method = "bray")
+
+# PCoA
+bray_curtis_pcoa <- ecodist::pco(bray_curtis_dist)
+
+# All components could be found here: 
+# bray_curtis_pcoa$vectors
+# But we only need the first two to demonstrate what we can do:
+bray_curtis_pcoa_df <- data.frame(pcoa1 = bray_curtis_pcoa$vectors[,1], 
+                                  pcoa2 = bray_curtis_pcoa$vectors[,2])
+
+# Create a plot
+bray_curtis_plot <- ggplot(data = bray_curtis_pcoa_df, aes(x=pcoa1, y=pcoa2)) +
+  geom_point() +
+  labs(x = "PC1",
+       y = "PC2", 
+       title = "Bray-Curtis PCoA") +
+  theme(title = element_text(size = 10)) # makes titles smaller
+
+bray_curtis_plot
+
+##############
+
+tse <- tse[, !is.na(tse$Gender)]
+
+
+# Does clr transformation. Pseudocount is added, because data contains zeros. 
+tse <- transformCounts(tse, method = "clr", pseudocount = 1)
+
+# Gets clr table
+clr_assay <- assays(tse)$clr
+
+# Transposes it to get taxa to columns
+clr_assay <- t(clr_assay)
+
+# Calculates Euclidean distances between samples. Because taxa is in columns,
+# it is used to compare different samples.
+euclidean_dist <- vegan::vegdist(clr_assay, method = "euclidean")
+
+# Does principal coordinate analysis
+euclidean_pcoa <- ecodist::pco(euclidean_dist)
+
+# Creates a data frame from principal coordinates
+euclidean_pcoa_df <- data.frame(pcoa1 = euclidean_pcoa$vectors[,1], 
+                                pcoa2 = euclidean_pcoa$vectors[,2])
+
+# Creates the plot
+euclidean_plot <- ggplot(data = euclidean_pcoa_df, aes(x=pcoa1, y=pcoa2)) +
+  geom_point() +
+  labs(x = "PC1",
+       y = "PC2",
+       title = "Euclidean PCoA with CLR transformation") +
+  theme(title = element_text(size = 12)) # makes titles smaller
+
+euclidean_plot
+
+
+
