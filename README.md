@@ -1,5 +1,10 @@
 # Course material
 
+This material was prepared for [ML4microbiome training
+school](https://www.ml4microbiome.eu/uppsala-2021/).
+
+
+
 ## Unsupervised learning
 
 Links to the course exercise material:
