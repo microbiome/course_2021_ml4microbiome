@@ -7,7 +7,7 @@ output: html_document
 
 
 
-#command to load that Rds file ( readRDS("myfile.rds") )
+#command to load that Rds file (  )
 
 # Tutorial Aims 
 In this tutorial we will learn feature selection, dimension reduction, clustering, visualization, analysis and interpretation  using  
@@ -20,19 +20,25 @@ In this tutorial we use data from [The Human Gut Microbiome Atlas (HGMA)](https:
 
 
 
-# Lab 1 
-   
-   
-## unsupervised learning: Feature selection & dimension reduction
-   
-1. Make the tse (TreeSummarizedExperiment) Object for the further analysis  (use the provided script to make a tse)
-
+# Lab 1: feature selection & dimension reduction
 
 ## Load the data 
 
+Let us load the readily processed data (TreeSummarizedExperiment object).
+
+```{r}
+tse <- readRDS("tse.Rds")
+```
+
+If you like to see how the data was created, you can download the
+[zip](data_zipfile.zip) and run the data preparation
+[script](tse_script.R).
 
 
-2. Aggregate the data to Phylum level 
+## Tasks
+
+
+1. Aggregate the data to Phylum level 
 
 ```{r}
 tse_phylum <- agglomerateByRank(tse, rank = "Phylum")
@@ -40,7 +46,7 @@ tse_phylum <- agglomerateByRank(tse, rank = "Phylum")
 
 
 
-3. Subset the data at the Species level with only taking bacterial Species that are greater than 10% of prevalence in the total sample
+2. Subset the data at the Species level with only taking bacterial Species that are greater than 10% of prevalence in the total sample
 
 
 ```{r}
@@ -51,7 +57,7 @@ prev <- getPrevalentTaxa(tse, detection = 0, prevalence = 10/100)
 ```
 
 
-4. Subset a tse object which consist only two phyla i.e Actinobacteria", "Cyanobacteria
+3. Subset a tse object which consist only two phyla i.e Actinobacteria", "Cyanobacteria
 
 
 ```{r}
@@ -60,7 +66,7 @@ se_subset_by_feature
 ```
 
  
-5. Calculate relative abundances, and store the table to assays
+4. Calculate relative abundances, and store the table to assays
 
 
 ```{r}
@@ -69,7 +75,7 @@ tse <- relAbundanceCounts(tse)
 ```
 
 
-6.Perform a centered log-ratio transformation (clr) (i.e. mia::transformSamples)
+5.Perform a centered log-ratio transformation (clr) (i.e. mia::transformSamples)
 
 ```{r}
 tse <- transformSamples(x = tse, abund_values = "counts", method = "clr", 
