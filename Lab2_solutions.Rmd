@@ -6,11 +6,8 @@ output: html_document
 ---
 
 
-
-
 # Lab 2: clustering & visualization
                    
-
 ### Task 1. Visualize beta diversity
 
 Use principal coordinate analysis (PCoA) and Bray-Curtis dissimilarities for relative abundances
