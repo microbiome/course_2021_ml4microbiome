@@ -21,12 +21,12 @@ Lab 1: feature selection & dimension reduction
 
 ## Preparation
 
-Prepare the data. We have provided a script that you can use to load
-the data in a TreeSummarizedExperiment (tse) format in R for further
-analysis.
+**Load data**. You can load the data in R with `tse <-
+readRDS("tse.rds")`. If you like to explore in more detail how we
+construct the data, you can have a look at the data preparation
+script.
 
-You can familiarize with this R data format based on examples in
-[online
+**Familiarize** with this R data format based on examples in [online
 tutorial](https://microbiome.github.io/course_2021_miaverse/microbiome-data-exploration.html). We
 will go through some basics after you have successfully loaded the
 data.
