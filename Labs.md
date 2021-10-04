@@ -1,31 +1,42 @@
-Tutorial Aims
+Unsupervised learning: tutorial aims
 =============
 
-In this tutorial we will learn feature selection, dimension reduction,
-clustering, visualization, analysis and interpretation using  
-miaverse (mia = MIcrobiome Analysis) and miaViz - (Microbiome Analysis
-Plotting and Visualization) to explore patterns in human gut microbiome
-datasets.
+This tutorial walks us through some key concepts in unsupervised
+learning using a set of tools from R/Bioconductor, called miaverse.
 
-The examples in this tutorial are mainly based on this online book  
-[Orchestrating Microbiome Analysis](https://microbiome.github.io/OMA/)
+The assignments explore a recently released human gut microbiome data
+collection from [The Human Gut Microbiome Atlas
+(HGMA)](https://www.microbiomeatlas.org/).
 
-In this tutorial we use data from [The Human Gut Microbiome Atlas
-(HGMA)](https://www.microbiomeatlas.org/)
+We cover aspects of feature selection, dimension reduction,
+clustering, visualization, analysis and interpretation, following the
+online book [Orchestrating Microbiome
+Analysis](https://microbiome.github.io/OMA/) (beta version).
+
+
 
 Lab 1
 =====
 
-unsupervised learning: Feature selection & dimension reduction
---------------------------------------------------------------
+## Feature selection & dimension reduction
 
-1.  Make the tse (TreeSummarizedExperiment) Object for the further
-    analysis (use the provided script to make a tse )
+### Preparation
 
-Load the data
--------------
+Prepare the data. We have provided a script that you can use to load
+the data in a TreeSummarizedExperiment (tse) format in R for further
+analysis.
 
-1.  Aggregate the data to Phylum level (agglomerateByRank)
+You can familiarize with this R data format based on examples in
+[online
+tutorial](https://microbiome.github.io/course_2021_miaverse/microbiome-data-exploration.html). We
+will go through some basics after you have successfully loaded the
+data.
+
+
+### Tasks
+
+
+1.  Aggregate data to your desired taxonomic Phylum level (mia::agglomerateByRank)
 
 2.  Subset the data at the Species level with only taking bacterial
     Species that are greater than 10% of prevalence in the total sample
@@ -35,8 +46,10 @@ Load the data
 
 4.  Calculate relative abundances, and store the table to assays
 
-6.Perform a centred log-ratio transformation (clr)
-(i.e. mia::transformSamples)
+6.  Perform a centred log-ratio transformation (clr)
+    (i.e. mia::transformSamples)
+
+
 
 Lab 2
 =====
