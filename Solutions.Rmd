@@ -6,6 +6,9 @@ output: html_document
 ---
 
 
+
+#command to load that Rds file ( readRDS("myfile.rds") )
+
 # Tutorial Aims 
 In this tutorial we will learn feature selection, dimension reduction, clustering, visualization, analysis and interpretation  using  
  miaverse (mia = MIcrobiome Analysis) and miaViz - (Microbiome Analysis Plotting and Visualization) to explore patterns in human gut microbiome datasets. 
