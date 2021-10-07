@@ -13,8 +13,13 @@ Links to the course exercise material:
 - [Solutions](Solutions.md): example solutions
 
 
+## Further reading
+
+[Orchestrating Microbiome Analysis](microbiome.github.io/OMA/) online book (beta version!).
+
 
 ## Reproducing the documents
 
 The results can be replicated by running in R: `source("main.R")`
+
 
