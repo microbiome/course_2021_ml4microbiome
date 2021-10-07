@@ -10,7 +10,7 @@ for relative abundances
     tse_phylum <- relAbundanceCounts(tse_phylum)
 
     # To speed up examples, let us just look at Swedish individuals
-    tse_subset <- tse_phylum[, tse_phylum$Geography == "Sweden"]
+    tse_subset <- tse_phylum[, tse_phylum$Geography == "Spain"]
 
     # Perform PCoA (aka MDS) using Bray-Curtis dissimilarity for relative abundance data
     tse_subset <- scater::runMDS(tse_subset, FUN = vegan::vegdist, name = "PCoA_braycurtis",

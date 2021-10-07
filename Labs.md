@@ -1,106 +1,65 @@
-Unsupervised learning: tutorial aims
+Tutorial Aims
 =============
 
-This tutorial walks us through some key concepts in unsupervised
-learning using a set of tools from R/Bioconductor, called miaverse.
+In this tutorial we will learn feature selection, dimension reduction,
+clustering, visualization, analysis and interpretation using  
+miaverse (mia = MIcrobiome Analysis) and miaViz - (Microbiome Analysis
+Plotting and Visualization) to explore patterns in human gut microbiome
+datasets.
 
-The assignments explore a recently released human gut microbiome data
-collection from [The Human Gut Microbiome Atlas
-(HGMA)](https://www.microbiomeatlas.org/).
+The examples in this tutorial are mainly based on this online book  
+[Orchestrating Microbiome Analysis](https://microbiome.github.io/OMA/)
 
-We cover aspects of feature selection, dimension reduction,
-clustering, visualization, analysis and interpretation, following the
-online book [Orchestrating Microbiome
-Analysis](https://microbiome.github.io/OMA/) (beta version).
+In this tutorial we use data from [The Human Gut Microbiome Atlas
+(HGMA)](https://www.microbiomeatlas.org/)
 
-
-
-Lab 1: feature selection & dimension reduction
+Lab 1
 =====
 
+unsupervised learning: Feature selection & dimension reduction
+--------------------------------------------------------------
 
-## Preparation
+1.  Make the tse (TreeSummarizedExperiment) Object for the further
+    analysis (use the provided script to make a tse )
 
-**Load data**.
+Load the data
+-------------
 
-You can download the R data file tse.Rds from
-[here](https://github.com/microbiome/course_2021_ml4microbiome/blob/master/tse.Rds). The
-read it to R with:
+1.  Aggregate the data to Phylum level (agglomerateByRank)
 
-```{r}
-tse <- readRDS("tse.Rds")
-```
+2.  Subset the data at the Species level with only taking bacterial
+    Species that are greater than 10% of prevalence in the total sample
 
-If you like to see how the data was created, you can download the
-[zip](data_zipfile.zip) and run the data preparation
-[script](tse_script.R).
+3.  Subset a tse object which consist only two phyla i.e
+    Actinobacteria“,”Cyanobacteria
 
+4.  Calculate relative abundances, and store the table to assays
 
-## Load necessary packages in R
+6.Perform a centred log-ratio transformation (clr)
+(i.e. mia::transformSamples)
 
-```{r}
-library(mia)
-library(miaViz)
-```
-
-
-**Familiarize** with this R data format based on examples in [online
-tutorial](https://microbiome.github.io/course_2021_miaverse/microbiome-data-exploration.html). We
-will go through some basics after you have successfully loaded the
-data.
-
-Use the following resources to solve the tasks:
-
-- Online book [Orchestrating Microbiome Analysis](https://microbiome.github.io/OMA/)
-- [mia R package function help pages](https://microbiome.github.io/mia/reference/index.html)
-- [miaViz R package function help pages](https://microbiome.github.io/miaViz/reference/index.html)
-
-
-## Tasks (hints of useful functions in parentheses)
-
-Feature selection will determine which aspects of the data we will focus on.
-
-1.  **Aggregate** data to your desired taxonomic Phylum level ([mia::agglomerateByRank](https://microbiome.github.io/mia/reference/agglomerate-methods.html))
-
-2.  **Subset** the data at your desired taxonomic level with only
-    taking taxonomic groups that are greater than 10% of prevalence in
-    the total sample. ([mia::subsetByPrevalentTaxa](https://microbiome.github.io/mia/))
-    
-
-3.  **Subset** the data to selected two phyla, for instance:
-    "Actinobacteria“ and ”Cyanobacteria"
-
-4.  **Transform** the data with relative abundances and centered
-    log-ratio (clr) (i.e. [mia::transformSamples](https://microbiome.github.io/mia/reference/transformCounts.html))
-
-
-
-Lab 2: visualization & clustering
+Lab 2
 =====
 
-Visualization and clustering help to discover patterns in the data in a reproducible way.
+unsupervised learning: clustering & visualization
+-------------------------------------------------
 
-## Tasks
+1.  Visualize beta diversity using principal coordinate analysis
+    (PCoA);based on the Bray-Curtis dissimilarities
 
-1. Visualize beta diversity using principal coordinate analysis
-   (PCoA); based on the Bray-Curtis dissimilarities
+2.  Visualize beta diversity using principal coordinates analysis
+    (PCoA); with Aitchison distance (clr transformation+ Euclidean
+    distance)
 
-2. Test how results are affected by feature selection and
-   dissimilarity measure (for instance, Aitchison distance i.e. clr
-   transformation + Euclidean distance)
-
-3. Cluster the samples using Dirichlet-multinomial mixture model (DMM)
+3.  Cluster the samples using Dirichlet- multinomial mixture model
 
 4.  Visualize the clusters in the PCoA plot
 
-
-Lab 3: analysis and interpretation
+Lab 3
 =====
 
-
-Finally, the identified patterns require interpretation.
-
-## Tasks
+unsupervised learning:Analysis and interpretation
+-------------------------------------------------
 
 1.  What taxa are driving the axis? Calculate the Spearman correlation
     between PC1 and the relative abundance of the bacteria and visualize
@@ -110,5 +69,3 @@ Finally, the identified patterns require interpretation.
     PCoA plot
 
 3.  Visualize gender by colour on PCoA plot
-
-4.  Experiment with the other data exploration techniques in [OMA](https://microbiome.github.io/OMA/)
